@@ -22,30 +22,28 @@ def positional_encoding(position, n_freq, include_input=False) :
 # Model implementation
 class NeRF(nn.Module) : 
     
-    def __init__(self, num_pos, num_view) : 
+    def __init__(self) : 
         super().__init__()
-        #self.num_pos = num_pos
-        #self.num_view = num_view
-
-        self.FC1 = nn.Linear(num_pos, 256)
+        
+        self.FC1 = nn.Linear(63, 256)
         self.FC2 = nn.Linear(256, 256)
         self.FC3 = nn.Linear(256, 256)
         self.FC4 = nn.Linear(256, 256)
-        self.FC5 = nn.Linear(256 + num_pos, 256)
+        self.FC5 = nn.Linear(256 + 63, 256)
         self.FC6 = nn.Linear(256, 256)
         self.FC7 = nn.Linear(256, 256)
         self.FC8 = nn.Linear(256, 256)
         self.sigma_layer = nn.Linear(256, 1)
         self.feature_layer = nn.Linear(256, 256)
-        self.FC9 = nn.Linear(256 + num_view, 256)
+        self.FC9 = nn.Linear(256 + 27, 256)
         self.FC10 = nn.Linear(256, 128)
         self.RGB_layer = nn.Linear(128, 3)
 
     def forward(self, pos, view_dir) :
         '''
         - inputs
-        x : Batches of embedded 3D positions  
-        d : Batches of embedded viewing directions
+        pos : Batches of embedded 3D positions  
+        view_dir : Batches of embedded viewing directions
 
         - outputs
         sigma : density
@@ -82,7 +80,7 @@ class NeRF(nn.Module) :
         return sigma, rgb
 
 
-
+'''
 # Model test
 x = torch.rand(3)
 d = torch.rand(3)
@@ -93,3 +91,4 @@ d = positional_encoding(d, 4, include_input=True)
 model = NeRF(len(x), len(d))
 out = model(x, d)
 print(out)
+'''
